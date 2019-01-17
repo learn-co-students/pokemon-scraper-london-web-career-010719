@@ -17,11 +17,11 @@ class Pokemon
   end
 
   def alter_hp(amount, db)
-    db.execute("UPDATE pokemon SET hp = ? WHERE id = ?", amount, self.id)
+    db.execute("UPDATE pokemon SET hp = ? WHERE id = ?", amount, id)
   end
 
   def hp
-    self.db.execute("SELECT hp FROM pokemon WHERE id = ?", self.id).first[0]
+    db.execute("SELECT hp FROM pokemon WHERE id = ?", id).flatten[0]
   end
 
   def self.save(name, type, db)
@@ -29,8 +29,7 @@ class Pokemon
   end
 
   def self.find(id, db)
-    pokemon = db.execute("SELECT * FROM pokemon WHERE id = ?", id).first
-    #if we find the pokemon create an object for it
-    Pokemon.new(id: pokemon[0], name: pokemon[1], type: pokemon[2], db: db) if pokemon != []
+    name, type = db.execute("SELECT * FROM pokemon WHERE id = ?", id).first
+    Pokemon.new(id: id, name: name, type: type, db: db) if pokemon != []
   end
 end
