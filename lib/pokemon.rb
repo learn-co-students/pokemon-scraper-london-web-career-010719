@@ -4,7 +4,7 @@ class Pokemon
 
   @@all = []
 
-  attr_accessor :id, :name, :type, :db, :hp
+  attr_accessor :id, :name, :type, :db
 
   def initialize(id:, name:, type:, db:)
     @id = id
@@ -26,5 +26,13 @@ class Pokemon
     name, type = db.execute("SELECT name, type FROM pokemon WHERE id = (?)", id).flatten
     Pokemon.new(id: id, name: name, type: type, db: db)
   end
-  
+
+  def alter_hp(hpp, db)
+    db.execute("UPDATE pokemon SET hp = ? WHERE id = ?", hpp, id)
+  end
+
+  def hp
+    db.execute("SELECT hp FROM pokemon WHERE id = (?)", id).flatten[0]
+  end
+
 end
