@@ -33,7 +33,7 @@ db.execute("SELECT hp FROM pokemon WHERE id = ?", self.id).flatten.first
 end
 
 def alter_hp(hp, db)
-db.execute("UPDATE Pokemon SET hp = ? WHERE id = ?", hp, self.id)
+db.execute("UPDATE Pokemon SET hp = ? WHERE id = #{self.id}", hp)
 end
 
 
